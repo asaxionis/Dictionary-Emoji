@@ -21,7 +21,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    var emojiList = ["😡", "😍", "😁", "🤗", "🤓"]
+    var emojiList = [["😡", "Angry"], ["😍", "Love"], ["😁", "Happy"], ["🤗", "Cutie"], ["🤓", "Geeking"]]
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -33,8 +33,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print(indexPath.row)
         let cell = UITableViewCell()
         
-        cell.textLabel?.text = emojiList[indexPath.row]
+        cell.textLabel?.text = emojiList[indexPath.row][0]
+        
+    
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        let emoji = emojiList[indexPath.row][0]
+        performSegue(withIdentifier: "moveSegue", sender: emoji)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let defVC = segue.destination as!DefinitionEmojiViewController
+        defVC.emoji = sender as! String
     }
 
     override func didReceiveMemoryWarning() {
